@@ -1,0 +1,1970 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Étude Médicale du Cœur Humain en Direct | Développé par Gesner Deslandes</title>
+  <style>
+    /* ==========================================================================
+       GLOBAL RESET & CALIBRI TYPOGRAPHY
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Calibri', 'Carlito', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    :root {
+      --bg-primary: #070d19;
+      --bg-secondary: #0d172a;
+      --bg-card: #121f38;
+      --bg-card-hover: #18294a;
+      --border-subtle: rgba(148, 163, 184, 0.18);
+      --border-highlight: rgba(0, 210, 255, 0.55);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --electric-blue: #00d2ff;
+      --electric-blue-deep: #00a8ff;
+      --oxy-red: #ff2e4c;
+      --oxy-red-soft: rgba(255, 46, 76, 0.16);
+      --deoxy-blue: #2563eb;
+      --deoxy-blue-bright: #3b82f6;
+      --deoxy-blue-soft: rgba(59, 130, 246, 0.18);
+      --septum-gold: #f59e0b;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --shadow-card: 0 12px 32px rgba(0, 0, 0, 0.45);
+    }
+
+    html, body {
+      min-height: 100vh;
+      background-color: var(--bg-primary);
+      background-image:
+        radial-gradient(circle at 18% 22%, rgba(0, 168, 255, 0.08), transparent 42%),
+        radial-gradient(circle at 82% 78%, rgba(255, 46, 76, 0.07), transparent 45%);
+      color: var(--text-main);
+      line-height: 1.45;
+      overflow-x: hidden;
+    }
+
+    /* ==========================================================================
+       TOP DEVELOPER HEADER BANNER
+       ========================================================================== */
+    .dev-header {
+      background: linear-gradient(90deg, #091224 0%, #10203d 50%, #091224 100%);
+      border-bottom: 1px solid rgba(0, 210, 255, 0.28);
+      padding: 10px 20px;
+      text-align: center;
+      font-size: 0.98rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      color: #e2e8f0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 10px 18px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+    }
+
+    .dev-header span.highlight {
+      color: #38bdf8;
+    }
+
+    .dev-header a {
+      color: #7dd3fc;
+      text-decoration: none;
+      border-bottom: 1px dotted rgba(125, 211, 252, 0.5);
+      transition: color 0.2s ease;
+    }
+
+    .dev-header a:hover {
+      color: #ffffff;
+    }
+
+    /* ==========================================================================
+       PROMINENT DEDICATION BANNER ("Venite Miselin")
+       ========================================================================== */
+    .dedication-banner {
+      background: linear-gradient(180deg, rgba(13, 25, 48, 0.96) 0%, rgba(7, 13, 25, 0.92) 100%);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 18px 20px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dedication-banner::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(0, 210, 255, 0.16) 0%, transparent 68%);
+      pointer-events: none;
+    }
+
+    .dedication-prefix {
+      font-size: 1.05rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: #cbd5e1;
+      font-weight: 700;
+      margin-bottom: 4px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .dedication-name {
+      font-size: clamp(2.3rem, 5.5vw, 4.1rem);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: 1.5px;
+      color: #00d2ff;
+      background: linear-gradient(180deg, #7be6ff 0%, #00d2ff 48%, #0095ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 14px rgba(0, 210, 255, 0.65)) drop-shadow(0 0 30px rgba(0, 168, 255, 0.4));
+      position: relative;
+      z-index: 1;
+      animation: pulseGlow 3.6s ease-in-out infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% {
+        filter: drop-shadow(0 0 12px rgba(0, 210, 255, 0.6)) drop-shadow(0 0 26px rgba(0, 168, 255, 0.35));
+      }
+      50% {
+        filter: drop-shadow(0 0 20px rgba(0, 210, 255, 0.9)) drop-shadow(0 0 40px rgba(0, 168, 255, 0.6));
+      }
+    }
+
+    /* ==========================================================================
+       MAIN APPLICATION LAYOUT
+       ========================================================================== */
+    .app-container {
+      max-width: 1520px;
+      margin: 0 auto;
+      padding: 18px 20px 32px;
+      display: grid;
+      grid-template-columns: 310px 1fr 370px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media (max-width: 1240px) {
+      .app-container {
+        grid-template-columns: 1fr 360px;
+      }
+      .directory-panel {
+        grid-column: 1 / -1;
+        order: 3;
+      }
+    }
+
+    @media (max-width: 880px) {
+      .app-container {
+        grid-template-columns: 1fr;
+      }
+      .viewport-panel {
+        order: 1;
+      }
+      .inspector-panel {
+        order: 2;
+      }
+      .directory-panel {
+        order: 3;
+      }
+    }
+
+    .panel {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 14px 18px;
+      background: rgba(18, 31, 56, 0.85);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .panel-title {
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .panel-body {
+      padding: 16px;
+    }
+
+    /* ==========================================================================
+       LEFT PANEL: ANATOMICAL DIRECTORY (14 PARTS)
+       ========================================================================== */
+    .filter-pills {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      flex: 1;
+      min-width: 72px;
+      padding: 6px 8px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover {
+      background: var(--bg-card-hover);
+      color: #fff;
+    }
+
+    .filter-btn.active {
+      background: rgba(0, 210, 255, 0.16);
+      border-color: var(--electric-blue);
+      color: var(--electric-blue);
+    }
+
+    .parts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      max-height: 670px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    @media (max-width: 1240px) {
+      .parts-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+        max-height: none;
+      }
+    }
+
+    .parts-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    .parts-list::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.3);
+      border-radius: 99px;
+    }
+
+    .part-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      border: 1px solid transparent;
+      color: var(--text-main);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.18s ease;
+    }
+
+    .part-item:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(148, 163, 184, 0.35);
+      transform: translateX(2px);
+    }
+
+    .part-item.active {
+      background: rgba(0, 210, 255, 0.14);
+      border-color: var(--electric-blue);
+      box-shadow: 0 0 14px rgba(0, 210, 255, 0.2);
+    }
+
+    .part-item-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .part-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+      flex-shrink: 0;
+    }
+
+    .part-name-text {
+      font-size: 0.96rem;
+      font-weight: 700;
+    }
+
+    .oxy-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .oxy-dot.deoxy {
+      background: #3b82f6;
+      box-shadow: 0 0 8px #3b82f6;
+    }
+    .oxy-dot.oxy {
+      background: #ff2e4c;
+      box-shadow: 0 0 8px #ff2e4c;
+    }
+    .oxy-dot.struct {
+      background: #f59e0b;
+      box-shadow: 0 0 8px #f59e0b;
+    }
+
+    /* ==========================================================================
+       CENTER PANEL: LIVE INTERACTIVE HEART CANVAS + CONTROLS
+       ========================================================================== */
+    .viewport-panel {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .status-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 16px;
+      background: rgba(7, 13, 25, 0.72);
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 0.92rem;
+    }
+
+    .cycle-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-weight: 700;
+      background: rgba(0, 210, 255, 0.14);
+      border: 1px solid rgba(0, 210, 255, 0.4);
+      color: #7be6ff;
+    }
+
+    .pulse-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #ff2e4c;
+      box-shadow: 0 0 10px #ff2e4c;
+    }
+
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-size: 0.88rem;
+      color: #cbd5e1;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+    }
+
+    .canvas-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 0.96;
+      max-height: 670px;
+      background: radial-gradient(circle at 50% 48%, #11213d 0%, #070d19 82%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    canvas#heartCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: pointer;
+    }
+
+    /* Quiz Prompt Overlay inside Viewport */
+    .quiz-banner {
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(9, 18, 36, 0.94);
+      border: 2px solid var(--electric-blue);
+      border-radius: var(--radius-md);
+      padding: 10px 18px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.65);
+      text-align: center;
+      z-index: 10;
+      width: min(92%, 470px);
+      display: none;
+    }
+
+    .quiz-banner.visible {
+      display: block;
+    }
+
+    .quiz-question {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .quiz-question span {
+      color: var(--electric-blue);
+      font-size: 1.15rem;
+    }
+
+    .quiz-meta {
+      margin-top: 4px;
+      font-size: 0.88rem;
+      color: #94a3b8;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      font-weight: 700;
+    }
+
+    /* Controls Deck below Canvas */
+    .controls-deck {
+      padding: 14px 16px 16px;
+      background: rgba(13, 23, 42, 0.95);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .playback-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      justify-content: space-between;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .ctrl-btn {
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background: var(--bg-card);
+      color: #f1f5f9;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.18s ease;
+    }
+
+    .ctrl-btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--electric-blue);
+    }
+
+    .ctrl-btn.primary {
+      background: linear-gradient(135deg, #0284c7, #00a8ff);
+      border-color: #38bdf8;
+      color: #ffffff;
+    }
+
+    .ctrl-btn.active-toggle {
+      background: rgba(0, 210, 255, 0.18);
+      border-color: var(--electric-blue);
+      color: #7be6ff;
+    }
+
+    .ctrl-btn.quiz-active {
+      background: linear-gradient(135deg, #d97706, #f59e0b);
+      border-color: #fcd34d;
+      color: #090d16;
+    }
+
+    .bpm-control {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg-card);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      flex: 1;
+      min-width: 230px;
+    }
+
+    .bpm-control label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #cbd5e1;
+      white-space: nowrap;
+    }
+
+    .bpm-control input[type="range"] {
+      flex: 1;
+      accent-color: #00d2ff;
+      cursor: pointer;
+    }
+
+    .bpm-value {
+      font-weight: 700;
+      color: #00d2ff;
+      min-width: 66px;
+      text-align: right;
+      font-size: 0.95rem;
+    }
+
+    .layers-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* ==========================================================================
+       RIGHT PANEL: MEDICAL STUDY INSPECTOR & BLOOD PATHWAY
+       ========================================================================== */
+    .inspector-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .inspector-part-title {
+      font-size: 1.42rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .med-badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    .med-badge.deoxy {
+      background: var(--deoxy-blue-soft);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.45);
+    }
+
+    .med-badge.oxy {
+      background: var(--oxy-red-soft);
+      color: #ff6b81;
+      border: 1px solid rgba(255, 46, 76, 0.45);
+    }
+
+    .med-badge.struct {
+      background: rgba(245, 158, 11, 0.16);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.45);
+    }
+
+    .med-badge.type {
+      background: rgba(148, 163, 184, 0.14);
+      color: #e2e8f0;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    .study-section {
+      margin-bottom: 14px;
+    }
+
+    .study-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .study-label {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      color: #38bdf8;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .study-text {
+      font-size: 0.98rem;
+      color: #e2e8f0;
+      line-height: 1.5;
+    }
+
+    .flow-sequence-box {
+      background: rgba(7, 13, 25, 0.65);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.92rem;
+    }
+
+    .flow-step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .flow-tag {
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #94a3b8;
+      min-width: 56px;
+      text-align: center;
+    }
+
+    .clinical-box {
+      background: rgba(0, 210, 255, 0.08);
+      border-left: 3px solid var(--electric-blue);
+      padding: 10px 12px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 0.93rem;
+      color: #dbeafe;
+    }
+
+    /* Full Circulation Pathway Reference Card */
+    .pathway-guide {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px;
+    }
+
+    .pathway-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #f8fafc;
+    }
+
+    .pathway-chain {
+      font-size: 0.88rem;
+      line-height: 1.55;
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+    }
+
+    .pathway-chain.pulmonary {
+      background: rgba(37, 99, 235, 0.14);
+      border: 1px solid rgba(59, 130, 246, 0.32);
+      color: #bfdbfe;
+    }
+
+    .pathway-chain.systemic {
+      background: rgba(255, 46, 76, 0.13);
+      border: 1px solid rgba(255, 46, 76, 0.32);
+      color: #fecdd3;
+    }
+
+    /* Toast / Feedback Banner (No alert() used) */
+    .feedback-toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(90px);
+      background: #0f172a;
+      border: 1px solid var(--electric-blue);
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.98rem;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.65);
+      z-index: 100;
+      opacity: 0;
+      transition: all 0.28s ease;
+      pointer-events: none;
+    }
+
+    .feedback-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       1. EN-TÊTE SUPÉRIEUR DU DÉVELOPPEUR
+       ======================================================================== -->
+  <header class="dev-header">
+    <span>Développé par <span class="highlight">Gesner Deslandes Software Developper</span></span>
+    <span>|</span>
+    <span>Contact : <a href="tel:+50947385663">(509)-47385663</a></span>
+    <span>|</span>
+    <span>Email : <a href="mailto:deslandes78@gmail.com">deslandes78@gmail.com</a></span>
+  </header>
+
+  <!-- ========================================================================
+       2. BANNIÈRE DE DÉDICACE ("Venite Miselin")
+       ======================================================================== -->
+  <section class="dedication-banner" aria-label="Dédicace">
+    <div class="dedication-prefix">Dédié à</div>
+    <h1 class="dedication-name">Venite Miselin</h1>
+  </section>
+
+  <!-- ========================================================================
+       3. ESPACE DE TRAVAIL INTERACTIF D'ÉTUDE MÉDICALE
+       ======================================================================== -->
+  <main class="app-container">
+
+    <!-- COLONNE GAUCHE : RÉPERTOIRE DES 14 STRUCTURES ANATOMIQUES -->
+    <aside class="panel directory-panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>Structures Anatomiques (14)</span>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="filter-pills" role="group" aria-label="Filtrer les parties du cœur">
+          <button class="filter-btn active" data-filter="all">Tout (14)</button>
+          <button class="filter-btn" data-filter="deoxy">Cœur Droit (O₂-)</button>
+          <button class="filter-btn" data-filter="oxy">Cœur Gauche (O₂+)</button>
+          <button class="filter-btn" data-filter="valve">Valves</button>
+        </div>
+        <div class="parts-list" id="partsList"></div>
+      </div>
+    </aside>
+
+    <!-- COLONNE CENTRALE : SIMULATION CARDIAQUE EN DIRECT & FLUX SANGUIN -->
+    <section class="panel viewport-panel">
+      <div class="status-bar">
+        <div class="cycle-badge">
+          <span class="pulse-dot" id="pulseDot"></span>
+          <span id="cyclePhaseText">Cycle : Systole Auriculaire</span>
+        </div>
+        <div class="legend-row">
+          <div class="legend-item">
+            <span class="oxy-dot deoxy"></span> Sang Désoxygéné (Riche en CO₂)
+          </div>
+          <div class="legend-item">
+            <span class="oxy-dot oxy"></span> Sang Oxygéné (Riche en O₂)
+          </div>
+        </div>
+      </div>
+
+      <div class="canvas-wrapper" id="canvasWrapper">
+        <!-- Bannière du Mode Quiz -->
+        <div class="quiz-banner" id="quizBanner">
+          <div class="quiz-question">Localisez et cliquez sur : <span id="quizTargetName">Ventricule Droit</span></div>
+          <div class="quiz-meta">
+            <span id="quizScoreText">Score : 0 / 0</span>
+            <span id="quizHintText">Cliquez directement sur le schéma du cœur</span>
+          </div>
+        </div>
+
+        <canvas id="heartCanvas"></canvas>
+      </div>
+
+      <!-- Panneau de Contrôle -->
+      <div class="controls-deck">
+        <div class="playback-row">
+          <div class="btn-group">
+            <button class="ctrl-btn primary" id="btnPlayPause">Pause</button>
+            <button class="ctrl-btn" id="btnStepPhase">Étape par Étape</button>
+            <button class="ctrl-btn" id="btnResetView">Réinitialiser Vue</button>
+          </div>
+
+          <div class="bpm-control">
+            <label for="bpmSlider">Fréquence Cardiaque :</label>
+            <input type="range" id="bpmSlider" min="40" max="160" value="72" />
+            <span class="bpm-value" id="bpmDisplay">72 BPM</span>
+          </div>
+        </div>
+
+        <div class="layers-row">
+          <button class="ctrl-btn active-toggle" id="toggleParticles">Flux Sanguin : OUI</button>
+          <button class="ctrl-btn active-toggle" id="toggleArrows">Flèches de Flux : OUI</button>
+          <button class="ctrl-btn active-toggle" id="toggleValves">Mouvement Valves : OUI</button>
+          <button class="ctrl-btn active-toggle" id="toggleLabels">Étiquettes : OUI</button>
+          <button class="ctrl-btn" id="toggleQuiz">Mode Quiz Médical : NON</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- COLONNE DROITE : INSPECTEUR D'ÉTUDE MÉDICALE -->
+    <aside class="panel inspector-panel">
+      <div class="panel-header">
+        <div class="panel-title">Inspecteur d'Étude Médicale</div>
+      </div>
+      <div class="panel-body">
+        <div class="inspector-card" id="inspectorCard">
+          <h2 class="inspector-part-title" id="inspTitle">11. Ventricule Gauche</h2>
+          <div class="badge-row" id="inspBadges"></div>
+
+          <div class="study-section">
+            <div class="study-label">Rôle Physiologique</div>
+            <p class="study-text" id="inspFunction"></p>
+          </div>
+
+          <div class="study-section">
+            <div class="study-label">Séquence de Circulation Sanguine</div>
+            <div class="flow-sequence-box">
+              <div class="flow-step">
+                <span class="flow-tag">PROVENANCE</span>
+                <span id="inspFrom"></span>
+              </div>
+              <div class="flow-step">
+                <span class="flow-tag">DESTINATION</span>
+                <span id="inspTo"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="study-section">
+            <div class="study-label">Note Clinique &amp; Anatomique</div>
+            <div class="clinical-box" id="inspClinical"></div>
+          </div>
+        </div>
+
+        <div class="pathway-guide">
+          <div class="pathway-title">Circuits Complets de la Circulation Cardiaque</div>
+          <div class="pathway-chain pulmonary">
+            <strong>1. Petite Circulation / Pulmonaire (Sang Désoxygéné - Bleu) :</strong><br />
+            Veines Caves Sup. &amp; Inf. &rarr; Oreillette Droite &rarr; Valve Tricuspide &rarr; Ventricule Droit &rarr; Valve Pulmonaire &rarr; Artère Pulmonaire &rarr; Poumons (Hématose)
+          </div>
+          <div class="pathway-chain systemic">
+            <strong>2. Grande Circulation / Systémique (Sang Oxygéné - Rouge) :</strong><br />
+            Veines Pulmonaires &rarr; Oreillette Gauche &rarr; Valve Mitrale (Bicuspide) &rarr; Ventricule Gauche &rarr; Valve Aortique &rarr; Aorte &rarr; Organes &amp; Tissus
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <div class="feedback-toast" id="feedbackToast"></div>
+
+  <script>
+    /* ==========================================================================
+       1. BASE DE DONNÉES ANATOMIQUE MÉDICALE (LES 14 STRUCTURES EN FRANÇAIS)
+       ========================================================================== */
+    const HEART_PARTS = [
+      {
+        id: "svc",
+        num: 1,
+        name: "Veine Cave Supérieure",
+        oxygenation: "deoxy",
+        oxyLabel: "Sang Désoxygéné",
+        category: "Grosse Veine Systémique",
+        isValve: false,
+        x: 342, y: 175, radius: 44,
+        labelX: 118, labelY: 115,
+        from: "Tête, cou, membres supérieurs et paroi thoracique supérieure",
+        to: "Oreillette Droite",
+        func: "Gros tronc veineux systémique qui ramène le sang veineux pauvre en oxygène et riche en dioxyde de carbone de la moitié supérieure du corps directement dans la partie supérieure de l'oreillette droite.",
+        clinical: "Dépourvue de valvules ; le retour veineux dépend de la gravité et des variations de pression intrathoracique lors de la respiration. Une turgescence jugulaire traduit souvent une élévation de la pression auriculaire droite."
+      },
+      {
+        id: "ivc",
+        num: 2,
+        name: "Veine Cave Inférieure",
+        oxygenation: "deoxy",
+        oxyLabel: "Sang Désoxygéné",
+        category: "Grosse Veine Systémique",
+        isValve: false,
+        x: 350, y: 780, radius: 44,
+        labelX: 118, labelY: 845,
+        from: "Abdomen, bassin et membres inférieurs",
+        to: "Oreillette Droite",
+        func: "La plus grosse veine du corps humain, acheminant le sang systémique désoxygéné provenant de toutes les structures situées sous le diaphragme vers la paroi postéro-inférieure de l'oreillette droite.",
+        clinical: "Présente à son abouchement auriculaire la valvule rudimentaire d'Eustachi, qui orientait chez le fœtus le sang oxygéné placentaire vers le foramen ovale."
+      },
+      {
+        id: "ra",
+        num: 3,
+        name: "Oreillette Droite",
+        oxygenation: "deoxy",
+        oxyLabel: "Sang Désoxygéné",
+        category: "Cavité Réceptrice Supérieure",
+        isValve: false,
+        x: 315, y: 425, radius: 68,
+        labelX: 105, labelY: 410,
+        from: "Veine Cave Supérieure, Veine Cave Inférieure et Sinus Coronaire",
+        to: "Ventricule Droit (via la Valve Tricuspide)",
+        func: "Cavité réceptrice à paroi mince qui recueille le sang systémique désoxygéné pendant la systole ventriculaire et se contracte lors de la systole auriculaire (« coup de pompe auriculaire ») pour compléter le remplissage du ventricule droit.",
+        clinical: "Abrite le Nœud Sino-Auriculaire (nœud de Keith et Flack) — le stimulateur cardiaque naturel — près de l'orifice de la veine cave supérieure."
+      },
+      {
+        id: "tricuspid",
+        num: 4,
+        name: "Valve Tricuspide",
+        oxygenation: "deoxy",
+        oxyLabel: "Sang Désoxygéné",
+        category: "Valve Auriculo-Ventriculaire (AV)",
+        isValve: true,
+        x: 368, y: 525, radius: 36,
+        labelX: 105, labelY: 545,
+        from: "Oreillette Droite",
+        to: "Ventricule Droit",
+        func: "Valve unidirectionnelle à trois feuillets (antérieur, postérieur et septal) qui s'ouvre pendant la diastole ventriculaire pour laisser passer le sang vers le ventricule droit et se ferme hermétiquement durant la systole pour empêcher tout reflux.",
+        clinical: "Maintenue par les cordages tendineux et les muscles papillaires. Sa fermeture participe au premier bruit du cœur (B1, « toum »)."
+      },
+      {
+        id: "rv",
+        num: 5,
+        name: "Ventricule Droit",
+        oxygenation: "deoxy",
+        oxyLabel: "Sang Désoxygéné",
+        category: "Cavité de Pompage Inférieure",
+        isValve: false,
+        x: 448, y: 635, radius: 66,
+        labelX: 118, labelY: 690,
+        from: "Oreillette Droite (via la Valve Tricuspide)",
+        to: "Artère Pulmonaire (via la Valve Pulmonaire)",
+        func: "Cavité musculaire en forme de croissant qui éjecte le sang désoxygéné dans la circulation pulmonaire à basse pression vers les poumons afin d'assurer l'hématose (échanges gazeux).",
+        clinical: "L'épaisseur de sa paroi (~3 à 5 mm) représente environ un tiers de celle du ventricule gauche car les résistances vasculaires pulmonaires sont beaucoup plus faibles."
+      },
+      {
+        id: "pulm_valve",
+        num: 6,
+        name: "Valve Pulmonaire",
+        oxygenation: "deoxy",
+        oxyLabel: "Sang Désoxygéné",
+        category: "Valve Sigmoïde (Semi-lunaire)",
+        isValve: true,
+        x: 472, y: 420, radius: 32,
+        labelX: 118, labelY: 255,
+        from: "Ventricule Droit (Conus Arteriosus)",
+        to: "Tronc Pulmonaire / Artère Pulmonaire",
+        func: "Valve semi-lunaire à trois valvules sigmoïdes qui s'ouvre lorsque la pression ventriculaire droite dépasse la pression artérielle pulmonaire et se referme dès le début de la relaxation ventriculaire.",
+        clinical: "Sa fermeture génère la composante P2 du deuxième bruit cardiaque (B2, « ta »), auscultée au foyer pulmonaire (2e espace intercostal gauche)."
+      },
+      {
+        id: "pulm_artery",
+        num: 7,
+        name: "Artère Pulmonaire",
+        oxygenation: "deoxy",
+        oxyLabel: "Sang Désoxygéné",
+        category: "Grosse Artère Pulmonaire",
+        isValve: false,
+        x: 530, y: 278, radius: 42,
+        labelX: 865, labelY: 230,
+        from: "Ventricule Droit (via la Valve Pulmonaire)",
+        to: "Poumons Gauche et Droit (Capillaires Alvéolaires)",
+        func: "Se bifurque en artères pulmonaires droite et gauche pour acheminer le sang désoxygéné vers les poumons. C'est la seule artère de l'organisme adulte transportant du sang pauvre en oxygène.",
+        clinical: "Une embolie pulmonaire — obstruction de l'arbre artériel pulmonaire par un caillot — peut entraîner une surcharge aiguë du ventricule droit (cœur pulmonaire aigu)."
+      },
+      {
+        id: "pulm_veins",
+        num: 8,
+        name: "Veines Pulmonaires",
+        oxygenation: "oxy",
+        oxyLabel: "Sang Oxygéné",
+        category: "Grosses Veines Pulmonaires",
+        isValve: false,
+        x: 742, y: 365, radius: 42,
+        labelX: 872, labelY: 345,
+        from: "Poumons Gauche et Droit (Capillaires Pulmonaires)",
+        to: "Oreillette Gauche",
+        func: "Quatre vaisseaux (veines pulmonaires supérieures et inférieures droites et gauches) ramenant le sang fraîchement oxygéné depuis les poumons vers la paroi postérieure de l'oreillette gauche.",
+        clinical: "Seules veines de l'organisme postnatal transportant du sang riche en oxygène. Des foyers ectopiques à leur ostium déclenchent fréquemment la fibrillation auriculaire."
+      },
+      {
+        id: "la",
+        num: 9,
+        name: "Oreillette Gauche",
+        oxygenation: "oxy",
+        oxyLabel: "Sang Oxygéné",
+        category: "Cavité Réceptrice Supérieure",
+        isValve: false,
+        x: 668, y: 425, radius: 58,
+        labelX: 872, labelY: 445,
+        from: "Les quatre Veines Pulmonaires",
+        to: "Ventricule Gauche (via la Valve Mitrale)",
+        func: "Forme la base postérieure du cœur ; reçoit le sang oxygéné provenant des poumons et le propulse à travers la valve mitrale dans le ventricule gauche.",
+        clinical: "Située immédiatement en avant de l'œsophage, ce qui permet à l'échocardiographie transœsophagienne (ETO) d'obtenir des images très précises de l'oreillette gauche et de la valve mitrale."
+      },
+      {
+        id: "mitral",
+        num: 10,
+        name: "Valve Mitrale (Bicuspide)",
+        oxygenation: "oxy",
+        oxyLabel: "Sang Oxygéné",
+        category: "Valve Auriculo-Ventriculaire (AV)",
+        isValve: true,
+        x: 642, y: 525, radius: 34,
+        labelX: 872, labelY: 545,
+        from: "Oreillette Gauche",
+        to: "Ventricule Gauche",
+        func: "Valve à deux feuillets (antérieur et postérieur) soumise à de hautes pressions, garantissant le passage unidirectionnel du sang oxygéné de l'oreillette gauche vers le ventricule gauche sans régurgitation.",
+        clinical: "Le prolapsus et le rétrécissement mitral comptent parmi les valvulopathies les plus fréquentes ; foyer d'auscultation situé à l'apex cardiaque (5e espace intercostal gauche)."
+      },
+      {
+        id: "lv",
+        num: 11,
+        name: "Ventricule Gauche",
+        oxygenation: "oxy",
+        oxyLabel: "Sang Oxygéné",
+        category: "Cavité de Pompage Principale",
+        isValve: false,
+        x: 605, y: 650, radius: 74,
+        labelX: 872, labelY: 665,
+        from: "Oreillette Gauche (via la Valve Mitrale)",
+        to: "Aorte (via la Valve Aortique)",
+        func: "Pompe musculaire principale à haute pression (~120 mmHg en systole). Se contracte puissamment pour éjecter le sang oxygéné à travers la valve aortique afin de perfuser l'ensemble du corps et le cerveau.",
+        clinical: "Possède le myocarde le plus épais (~10 à 15 mm) et constitue la pointe anatomique (apex) du cœur."
+      },
+      {
+        id: "aortic_valve",
+        num: 12,
+        name: "Valve Aortique",
+        oxygenation: "oxy",
+        oxyLabel: "Sang Oxygéné",
+        category: "Valve Sigmoïde (Semi-lunaire)",
+        isValve: true,
+        x: 552, y: 455, radius: 30,
+        labelX: 872, labelY: 775,
+        from: "Ventricule Gauche (Chambre de Chasse)",
+        to: "Aorte Ascendante",
+        func: "Valve semi-lunaire à trois valvules sigmoïdes qui s'ouvre lors de l'éjection ventriculaire gauche et se ferme rapidement en diastole pour maintenir la pression artérielle diastolique et perfuser les artères coronaires.",
+        clinical: "Juste au-dessus des sinus de Valsalva aortiques s'ouvrent les ostiums des artères coronaires droite et gauche qui nourrissent le muscle cardiaque."
+      },
+      {
+        id: "aorta",
+        num: 13,
+        name: "Aorte (Crosse Aortique)",
+        oxygenation: "oxy",
+        oxyLabel: "Sang Oxygéné",
+        category: "Artère Élastique Systémique",
+        isValve: false,
+        x: 515, y: 145, radius: 46,
+        labelX: 865, labelY: 115,
+        from: "Ventricule Gauche (via la Valve Aortique)",
+        to: "Circulation Systémique (Artères Coronaires, Carotides, Sous-clavières, Thoracique et Abdominale)",
+        func: "La plus grande artère du corps humain. Ses parois riches en élastine se dilatent en systole et restituent l'énergie en diastole (effet Windkessel) pour assurer un débit sanguin continu.",
+        clinical: "La crosse aortique donne naissance à trois troncs majeurs : le tronc artériel brachiocéphalique, l'artère carotide commune gauche et l'artère sous-clavière gauche."
+      },
+      {
+        id: "septum",
+        num: 14,
+        name: "Septum Interventriculaire",
+        oxygenation: "struct",
+        oxyLabel: "Cloison Musculaire Médiane",
+        category: "Cloison Cardiaque & Conduction",
+        isValve: false,
+        x: 525, y: 665, radius: 36,
+        labelX: 525, labelY: 895,
+        from: "Sépare le Ventricule Droit (Désoxygéné)",
+        to: "Du Ventricule Gauche (Oxygéné)",
+        func: "Épaisse cloison oblique (musculaire et membraneuse) séparant hermétiquement les ventricules droit et gauche afin que le sang oxygéné et le sang désoxygéné ne se mélangent jamais.",
+        clinical: "Abrite le faisceau de His et ses branches droite et gauche du système de conduction électrique. Une communication interventriculaire (CIV) provoque un shunt gauche-droit."
+      }
+    ];
+
+    /* ==========================================================================
+       2. BLOOD FLOW PATHWAYS (MULTI-POINT SPLINES FOR PARTICLE ANIMATION)
+       ========================================================================== */
+    const BLOOD_PATHS = {
+      // Deoxygenated Pathways (Blue)
+      svcToRa: {
+        type: "deoxy",
+        points: [
+          { x: 342, y: 55 },
+          { x: 342, y: 175 },
+          { x: 332, y: 310 },
+          { x: 315, y: 415 }
+        ]
+      },
+      ivcToRa: {
+        type: "deoxy",
+        points: [
+          { x: 352, y: 890 },
+          { x: 350, y: 760 },
+          { x: 334, y: 580 },
+          { x: 318, y: 440 }
+        ]
+      },
+      raToRv: {
+        type: "deoxy",
+        points: [
+          { x: 315, y: 425 },
+          { x: 348, y: 485 },
+          { x: 375, y: 540 },
+          { x: 425, y: 615 },
+          { x: 458, y: 668 }
+        ]
+      },
+      rvToPulm: {
+        type: "deoxy",
+        points: [
+          { x: 458, y: 668 },
+          { x: 465, y: 545 },
+          { x: 472, y: 420 },
+          { x: 488, y: 315 },
+          { x: 525, y: 268 },
+          { x: 655, y: 245 }
+        ]
+      },
+      rvToLeftPulm: {
+        type: "deoxy",
+        points: [
+          { x: 488, y: 315 },
+          { x: 465, y: 268 },
+          { x: 388, y: 252 }
+        ]
+      },
+
+      // Oxygenated Pathways (Red)
+      pulmVeinsToLa: {
+        type: "oxy",
+        points: [
+          { x: 835, y: 335 },
+          { x: 745, y: 365 },
+          { x: 672, y: 415 }
+        ]
+      },
+      pulmVeinsLowerToLa: {
+        type: "oxy",
+        points: [
+          { x: 830, y: 405 },
+          { x: 742, y: 415 },
+          { x: 672, y: 428 }
+        ]
+      },
+      laToLv: {
+        type: "oxy",
+        points: [
+          { x: 668, y: 425 },
+          { x: 652, y: 485 },
+          { x: 636, y: 542 },
+          { x: 618, y: 625 },
+          { x: 595, y: 705 }
+        ]
+      },
+      lvToAorta: {
+        type: "oxy",
+        points: [
+          { x: 595, y: 705 },
+          { x: 575, y: 580 },
+          { x: 552, y: 455 },
+          { x: 538, y: 310 },
+          { x: 522, y: 175 },
+          { x: 465, y: 138 },
+          { x: 412, y: 185 },
+          { x: 405, y: 320 }
+        ]
+      },
+      aortaBranches: {
+        type: "oxy",
+        points: [
+          { x: 522, y: 175 },
+          { x: 495, y: 135 },
+          { x: 495, y: 52 }
+        ]
+      }
+    };
+
+    /* ==========================================================================
+       3. APPLICATION STATE
+       ========================================================================== */
+    const state = {
+      selectedId: "lv",
+      hoveredId: null,
+      filter: "all",
+      bpm: 72,
+      isPlaying: true,
+      phaseTime: 0, // 0 to 1 normalized cardiac cycle
+      showParticles: true,
+      showArrows: true,
+      showValves: true,
+      showLabels: true,
+      quizMode: false,
+      quizTarget: null,
+      quizScore: 0,
+      quizTotal: 0,
+      focusZoom: 1,
+      focusOffsetX: 0,
+      focusOffsetY: 0
+    };
+
+    /* ==========================================================================
+       4. PARTICLE ENGINE FOR BLOOD FLOW
+       ========================================================================== */
+    const particles = [];
+    const PATH_KEYS = Object.keys(BLOOD_PATHS);
+
+    function initParticles() {
+      particles.length = 0;
+      PATH_KEYS.forEach((key) => {
+        const path = BLOOD_PATHS[key];
+        const count = key.includes("Branches") || key.includes("LeftPulm") ? 8 : 18;
+        for (let i = 0; i < count; i++) {
+          particles.push({
+            pathKey: key,
+            t: i / count,
+            speedOffset: 0.88 + Math.random() * 0.24,
+            jitter: (Math.random() - 0.5) * 9,
+            size: 3.4 + Math.random() * 1.8
+          });
+        }
+      });
+    }
+
+    function getPointOnPolyline(points, t) {
+      const clampedT = Math.max(0, Math.min(0.9999, t));
+      const segCount = points.length - 1;
+      const scaled = clampedT * segCount;
+      const idx = Math.floor(scaled);
+      const localT = scaled - idx;
+      const p0 = points[idx];
+      const p1 = points[idx + 1];
+
+      const x = p0.x + (p1.x - p0.x) * localT;
+      const y = p0.y + (p1.y - p0.y) * localT;
+      const dx = p1.x - p0.x;
+      const dy = p1.y - p0.y;
+      const len = Math.hypot(dx, dy) || 1;
+      return { x, y, nx: -dy / len, ny: dx / len, angle: Math.atan2(dy, dx) };
+    }
+
+    /* ==========================================================================
+       5. UI RENDERING: DIRECTORY & INSPECTOR
+       ========================================================================== */
+    const partsListEl = document.getElementById("partsList");
+    const feedbackToast = document.getElementById("feedbackToast");
+    let toastTimer = null;
+
+    function showToast(msg) {
+      feedbackToast.textContent = msg;
+      feedbackToast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        feedbackToast.classList.remove("show");
+      }, 2400);
+    }
+
+    function renderDirectory() {
+      partsListEl.innerHTML = "";
+      const filtered = HEART_PARTS.filter((part) => {
+        if (state.filter === "all") return true;
+        if (state.filter === "deoxy") return part.oxygenation === "deoxy";
+        if (state.filter === "oxy") return part.oxygenation === "oxy";
+        if (state.filter === "valve") return part.isValve;
+        return true;
+      });
+
+      filtered.forEach((part) => {
+        const btn = document.createElement("button");
+        btn.className = "part-item" + (part.id === state.selectedId ? " active" : "");
+        btn.innerHTML = `
+          <div class="part-item-left">
+            <span class="part-num">${part.num}</span>
+            <span class="part-name-text">${part.name}</span>
+          </div>
+          <span class="oxy-dot ${part.oxygenation}" title="${part.oxyLabel}"></span>
+        `;
+        btn.addEventListener("click", () => {
+          selectPart(part.id, true);
+        });
+        partsListEl.appendChild(btn);
+      });
+    }
+
+    function updateInspector(part) {
+      if (!part) return;
+      document.getElementById("inspTitle").textContent = `${part.num}. ${part.name}`;
+      document.getElementById("inspBadges").innerHTML = `
+        <span class="med-badge ${part.oxygenation}">${part.oxyLabel}</span>
+        <span class="med-badge type">${part.category}</span>
+      `;
+      document.getElementById("inspFunction").textContent = part.func;
+      document.getElementById("inspFrom").textContent = part.from;
+      document.getElementById("inspTo").textContent = part.to;
+      document.getElementById("inspClinical").textContent = part.clinical;
+    }
+
+    function selectPart(id, gentleZoom = false) {
+      const part = HEART_PARTS.find((p) => p.id === id);
+      if (!part) return;
+
+      if (state.quizMode && state.quizTarget) {
+        state.quizTotal++;
+        if (part.id === state.quizTarget.id) {
+          state.quizScore++;
+          showToast(`Bravo ! C'est bien : ${part.name}.`);
+          state.selectedId = part.id;
+          updateInspector(part);
+          renderDirectory();
+          pickNextQuizTarget();
+        } else {
+          showToast(`Incorrect — vous avez cliqué sur : ${part.name}. Réessayez !`);
+          document.getElementById("quizScoreText").textContent = `Score : ${state.quizScore} / ${state.quizTotal}`;
+        }
+        return;
+      }
+
+      state.selectedId = part.id;
+      updateInspector(part);
+      renderDirectory();
+
+      if (gentleZoom) {
+        state.focusZoom = 1.12;
+        state.focusOffsetX = (500 - part.x) * 0.16;
+        state.focusOffsetY = (480 - part.y) * 0.16;
+      }
+    }
+
+    function pickNextQuizTarget() {
+      const candidates = HEART_PARTS.filter((p) => !state.quizTarget || p.id !== state.quizTarget.id);
+      state.quizTarget = candidates[Math.floor(Math.random() * candidates.length)];
+      document.getElementById("quizTargetName").textContent = state.quizTarget.name;
+      document.getElementById("quizScoreText").textContent = `Score : ${state.quizScore} / ${state.quizTotal}`;
+    }
+
+    /* ==========================================================================
+       6. RENDU ANATOMIQUE DU CŒUR SUR CANVAS (SYSTOLE / DIASTOLE + FLUX)
+       ========================================================================== */
+    const canvas = document.getElementById("heartCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvas() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    // Calcul des états physiologiques du cycle cardiaque selon phaseTime (0..1)
+    function getCardiacDynamics(t) {
+      let atrialContract = 0;
+      let ventContract = 0;
+      let phaseLabel = "Diastole Ventriculaire (Remplissage Passif)";
+
+      if (t < 0.18) {
+        atrialContract = Math.sin((t / 0.18) * Math.PI);
+        phaseLabel = "Systole Auriculaire (Contraction des Oreillettes)";
+      } else if (t < 0.52) {
+        ventContract = Math.sin(((t - 0.18) / 0.34) * Math.PI);
+        phaseLabel = "Systole Ventriculaire (Éjection Sanguine)";
+      } else {
+        phaseLabel = "Diastole Ventriculaire (Relaxation & Remplissage)";
+      }
+
+      const avValveOpen = ventContract < 0.22 ? 1 : Math.max(0, 1 - (ventContract - 0.22) * 4);
+      const semiValveOpen = ventContract > 0.25 ? Math.min(1, (ventContract - 0.25) * 2.5) : 0;
+
+      return {
+        atrialContract,
+        ventContract,
+        avValveOpen,
+        semiValveOpen,
+        phaseLabel
+      };
+    }
+
+    // Conversion coordonnées écran -> espace logique 1000x960 du cœur
+    function getLogicalCoords(clientX, clientY) {
+      const rect = canvas.getBoundingClientRect();
+      const scale = Math.min(rect.width / 1000, rect.height / 960);
+      const offsetX = (rect.width - 1000 * scale) / 2;
+      const offsetY = (rect.height - 960 * scale) / 2;
+
+      let lx = (clientX - rect.left - offsetX) / scale;
+      let ly = (clientY - rect.top - offsetY) / scale;
+
+      lx = (lx - 500 - state.focusOffsetX) / state.focusZoom + 500;
+      ly = (ly - 480 - state.focusOffsetY) / state.focusZoom + 480;
+      return { x: lx, y: ly };
+    }
+
+    function findPartAt(lx, ly) {
+      let best = null;
+      let minDist = Infinity;
+      for (const part of HEART_PARTS) {
+        const d = Math.hypot(lx - part.x, ly - part.y);
+        if (d <= part.radius + 8 && d < minDist) {
+          minDist = d;
+          best = part;
+        }
+      }
+      return best;
+    }
+
+    function drawArrowHead(x, y, angle, size, color) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(size, 0);
+      ctx.lineTo(-size * 0.75, -size * 0.6);
+      ctx.lineTo(-size * 0.45, 0);
+      ctx.lineTo(-size * 0.75, size * 0.6);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawValveLeaflets(x, y, angle, openRatio, isTricuspid, color) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+
+      const swing = openRatio * 0.72;
+      const len = isTricuspid ? 26 : 23;
+
+      ctx.strokeStyle = "#f8fafc";
+      ctx.lineWidth = 4.5;
+      ctx.lineCap = "round";
+
+      // Feuillet gauche / supérieur
+      ctx.save();
+      ctx.translate(-len, 0);
+      ctx.rotate(swing);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(len - 2, 0);
+      ctx.stroke();
+      ctx.restore();
+
+      // Feuillet droit / inférieur
+      ctx.save();
+      ctx.translate(len, 0);
+      ctx.rotate(-swing);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(-(len - 2), 0);
+      ctx.stroke();
+      ctx.restore();
+
+      // Anneau valvulaire
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(-len, 0, 4.5, 0, Math.PI * 2);
+      ctx.arc(len, 0, 4.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    function drawHeartAnatomy(dyn) {
+      const aScale = 1 - dyn.atrialContract * 0.085;
+      const vScale = 1 - dyn.ventContract * 0.095;
+
+      // 1. Aorte (Crosse Aortique & Troncs Supra-aortiques)
+      ctx.save();
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.strokeStyle = "#991b1b";
+      ctx.lineWidth = 56;
+      ctx.beginPath();
+      ctx.moveTo(548, 445);
+      ctx.bezierCurveTo(542, 290, 540, 145, 480, 138);
+      ctx.bezierCurveTo(415, 132, 405, 220, 405, 345);
+      ctx.stroke();
+
+      ctx.strokeStyle = "#dc2626";
+      ctx.lineWidth = 44;
+      ctx.stroke();
+
+      // Branches supérieures de la crosse aortique
+      ctx.lineWidth = 18;
+      ctx.strokeStyle = "#dc2626";
+      [455, 485, 512].forEach((bx) => {
+        ctx.beginPath();
+        ctx.moveTo(bx, 142);
+        ctx.lineTo(bx - 4, 54);
+        ctx.stroke();
+      });
+      ctx.restore();
+
+      // 2. Veines Caves Supérieure & Inférieure (Bleu)
+      ctx.save();
+      ctx.lineCap = "round";
+      ctx.strokeStyle = "#1d4ed8";
+      ctx.lineWidth = 48;
+      // VCS
+      ctx.beginPath();
+      ctx.moveTo(342, 52);
+      ctx.lineTo(342, 340);
+      ctx.stroke();
+      // VCI
+      ctx.beginPath();
+      ctx.moveTo(352, 892);
+      ctx.lineTo(350, 530);
+      ctx.stroke();
+
+      ctx.strokeStyle = "#2563eb";
+      ctx.lineWidth = 36;
+      ctx.beginPath();
+      ctx.moveTo(342, 52);
+      ctx.lineTo(342, 340);
+      ctx.moveTo(352, 892);
+      ctx.lineTo(350, 530);
+      ctx.stroke();
+      ctx.restore();
+
+      // 3. Veines Pulmonaires (Rouge Oxygéné à droite du schéma)
+      ctx.save();
+      ctx.lineCap = "round";
+      ctx.strokeStyle = "#e11d48";
+      ctx.lineWidth = 24;
+      ctx.beginPath();
+      ctx.moveTo(838, 335);
+      ctx.lineTo(680, 405);
+      ctx.moveTo(834, 405);
+      ctx.lineTo(680, 435);
+      ctx.stroke();
+      ctx.restore();
+
+      // 4. Masse Myocardique Externe & Cavités Cardiaques
+      ctx.save();
+      ctx.translate(500, 540);
+      ctx.scale(vScale, vScale);
+      ctx.translate(-500, -540);
+
+      // Silhouette extérieure du myocarde
+      const myoGrad = ctx.createLinearGradient(250, 320, 740, 820);
+      myoGrad.addColorStop(0, "#4c1d3d");
+      myoGrad.addColorStop(0.5, "#6b1d3a");
+      myoGrad.addColorStop(1, "#3b122b");
+
+      ctx.fillStyle = myoGrad;
+      ctx.strokeStyle = "#fda4af";
+      ctx.lineWidth = 3.5;
+      ctx.beginPath();
+      ctx.moveTo(305, 345);
+      ctx.bezierCurveTo(220, 395, 235, 530, 315, 620);
+      ctx.bezierCurveTo(385, 710, 495, 815, 595, 810);
+      ctx.bezierCurveTo(685, 805, 745, 675, 725, 535);
+      ctx.bezierCurveTo(735, 435, 705, 355, 635, 345);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Cavité Ventricule Droit (Bleu Désoxygéné)
+      ctx.fillStyle = "#1e3a8a";
+      ctx.strokeStyle = "#60a5fa";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(348, 505);
+      ctx.bezierCurveTo(335, 605, 405, 715, 505, 755);
+      ctx.bezierCurveTo(518, 665, 505, 520, 485, 420);
+      ctx.lineTo(445, 425);
+      ctx.lineTo(435, 515);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Cavité Ventricule Gauche (Rouge Oxygéné - paroi plus épaisse)
+      ctx.fillStyle = "#881337";
+      ctx.strokeStyle = "#fb7185";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(545, 455);
+      ctx.bezierCurveTo(535, 565, 542, 695, 588, 765);
+      ctx.bezierCurveTo(655, 745, 692, 630, 672, 515);
+      ctx.lineTo(605, 515);
+      ctx.lineTo(575, 455);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Septum Interventriculaire (Cloison Musculaire Médiane)
+      ctx.fillStyle = "#9f1239";
+      ctx.strokeStyle = "rgba(245, 158, 11, 0.7)";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(502, 475);
+      ctx.quadraticCurveTo(525, 615, 545, 768);
+      ctx.quadraticCurveTo(525, 775, 508, 762);
+      ctx.quadraticCurveTo(498, 615, 488, 475);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.restore();
+
+      // 5. Oreillettes Droite & Gauche (Contraction auriculaire)
+      ctx.save();
+      ctx.translate(490, 425);
+      ctx.scale(aScale, aScale);
+      ctx.translate(-490, -425);
+
+      // Oreillette Droite
+      ctx.fillStyle = "#1d4ed8";
+      ctx.strokeStyle = "#93c5fd";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.ellipse(318, 425, 66, 76, -0.15, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // Oreillette Gauche
+      ctx.fillStyle = "#be123c";
+      ctx.strokeStyle = "#fda4af";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.ellipse(665, 425, 58, 64, 0.15, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+
+      // 6. Tronc Pulmonaire & Artère Pulmonaire (en avant de la crosse aortique)
+      ctx.save();
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.strokeStyle = "#1e40af";
+      ctx.lineWidth = 44;
+      ctx.beginPath();
+      ctx.moveTo(468, 425);
+      ctx.bezierCurveTo(472, 330, 485, 275, 535, 265);
+      ctx.lineTo(665, 245);
+      ctx.moveTo(492, 285);
+      ctx.lineTo(382, 250);
+      ctx.stroke();
+
+      ctx.strokeStyle = "#3b82f6";
+      ctx.lineWidth = 34;
+      ctx.stroke();
+      ctx.restore();
+
+      // 7. Mécanique des 4 Valves Cardiaques
+      const avOpen = state.showValves ? dyn.avValveOpen : 0.65;
+      const semiOpen = state.showValves ? dyn.semiValveOpen : 0.65;
+
+      // Valve Tricuspide (OD -> VD)
+      drawValveLeaflets(368, 525, 0.42, avOpen, true, "#60a5fa");
+      // Valve Mitrale / Bicuspide (OG -> VG)
+      drawValveLeaflets(642, 525, -0.35, avOpen, false, "#fb7185");
+      // Valve Pulmonaire (VD -> Artère Pulmonaire)
+      drawValveLeaflets(472, 420, 0.08, semiOpen, false, "#60a5fa");
+      // Valve Aortique (VG -> Aorte)
+      drawValveLeaflets(552, 455, -0.1, semiOpen, false, "#fb7185");
+    }
+
+    function drawBloodParticlesAndArrows(dt, dyn) {
+      PATH_KEYS.forEach((key) => {
+        const path = BLOOD_PATHS[key];
+        const isDeoxy = path.type === "deoxy";
+        const color = isDeoxy ? "#38bdf8" : "#ff4d6d";
+
+        if (state.showArrows) {
+          const midPt = getPointOnPolyline(path.points, 0.55);
+          drawArrowHead(midPt.x, midPt.y, midPt.angle, 11, isDeoxy ? "#93c5fd" : "#fda4af");
+        }
+      });
+
+      if (!state.showParticles) return;
+
+      const bps = state.bpm / 60;
+      particles.forEach((p) => {
+        const path = BLOOD_PATHS[p.pathKey];
+        const isAtrialStep = p.pathKey === "raToRv" || p.pathKey === "laToLv";
+        const isEjectionStep = p.pathKey === "rvToPulm" || p.pathKey === "rvToLeftPulm" || p.pathKey === "lvToAorta" || p.pathKey === "aortaBranches";
+
+        let velocity = 0.28;
+        if (isAtrialStep) {
+          velocity = 0.16 + dyn.atrialContract * 0.55 + (1 - dyn.ventContract) * 0.18;
+        } else if (isEjectionStep) {
+          velocity = 0.12 + dyn.ventContract * 0.85;
+        } else {
+          velocity = 0.34;
+        }
+
+        if (state.isPlaying) {
+          p.t = (p.t + dt * bps * velocity * p.speedOffset) % 1;
+        }
+
+        const pt = getPointOnPolyline(path.points, p.t);
+        const px = pt.x + pt.nx * p.jitter;
+        const py = pt.y + pt.ny * p.jitter;
+
+        ctx.save();
+        ctx.fillStyle = path.type === "deoxy" ? "#38bdf8" : "#ff3b5c";
+        ctx.shadowColor = path.type === "deoxy" ? "#0284c7" : "#e11d48";
+        ctx.shadowBlur = 7;
+        ctx.beginPath();
+        ctx.arc(px, py, p.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      });
+    }
+
+    function drawAnnotationsAndHotspots(now) {
+      const pulse = 0.5 + 0.5 * Math.sin(now * 0.006);
+
+      HEART_PARTS.forEach((part) => {
+        const isSelected = !state.quizMode && part.id === state.selectedId;
+        const isHovered = part.id === state.hoveredId;
+
+        const accent =
+          part.oxygenation === "deoxy"
+            ? "#38bdf8"
+            : part.oxygenation === "oxy"
+            ? "#ff4d6d"
+            : "#fbbf24";
+
+        // Halo de sélection ou survol sur la structure
+        if (isSelected || isHovered) {
+          ctx.save();
+          ctx.strokeStyle = isSelected ? "#00d2ff" : "#ffffff";
+          ctx.lineWidth = isSelected ? 3.5 : 2.5;
+          ctx.setLineDash(isSelected ? [] : [5, 4]);
+          ctx.beginPath();
+          ctx.arc(part.x, part.y, part.radius * 0.62 + pulse * 5, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        // Pastille numérotée sur la structure
+        ctx.save();
+        ctx.fillStyle = isSelected ? "#00d2ff" : "#091224";
+        ctx.strokeStyle = accent;
+        ctx.lineWidth = 2.4;
+        ctx.beginPath();
+        ctx.arc(part.x, part.y, 14, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = isSelected ? "#050b16" : "#ffffff";
+        ctx.font = "bold 13px Calibri, sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(String(part.num), part.x, part.y + 0.5);
+        ctx.restore();
+
+        // Étiquettes anatomiques (masquées automatiquement en Mode Quiz pour ne pas révéler les réponses)
+        if (state.showLabels && !state.quizMode) {
+          ctx.save();
+          ctx.strokeStyle = isSelected ? "#00d2ff" : "rgba(148, 163, 184, 0.5)";
+          ctx.lineWidth = isSelected ? 2 : 1.2;
+          ctx.beginPath();
+          ctx.moveTo(part.x, part.y);
+          ctx.lineTo(part.labelX, part.labelY);
+          ctx.stroke();
+
+          const labelText = `${part.num}. ${part.name}`;
+          ctx.font = isSelected ? "bold 14px Calibri, sans-serif" : "bold 13px Calibri, sans-serif";
+          const textW = ctx.measureText(labelText).width;
+          const boxW = textW + 16;
+          const boxH = 24;
+          const bx = Math.max(8, Math.min(1000 - boxW - 8, part.labelX - boxW / 2));
+          const by = Math.max(8, Math.min(960 - boxH - 8, part.labelY - boxH / 2));
+
+          ctx.fillStyle = isSelected ? "rgba(0, 210, 255, 0.24)" : "rgba(9, 18, 36, 0.88)";
+          ctx.strokeStyle = isSelected ? "#00d2ff" : accent;
+          ctx.lineWidth = isSelected ? 1.8 : 1.1;
+          ctx.beginPath();
+          ctx.roundRect(bx, by, boxW, boxH, 6);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.fillStyle = "#f8fafc";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(labelText, bx + boxW / 2, by + boxH / 2 + 0.5);
+          ctx.restore();
+        }
+      });
+    }
+
+    let lastTimestamp = 0;
+    function animate(timestamp) {
+      if (!lastTimestamp) lastTimestamp = timestamp;
+      const dt = Math.min(0.05, (timestamp - lastTimestamp) / 1000);
+      lastTimestamp = timestamp;
+
+      if (state.isPlaying) {
+        const cyclesPerSec = state.bpm / 60;
+        state.phaseTime = (state.phaseTime + dt * cyclesPerSec) % 1;
+      }
+
+      const dyn = getCardiacDynamics(state.phaseTime);
+      document.getElementById("cyclePhaseText").textContent = `Cycle : ${dyn.phaseLabel}`;
+
+      const pulseDot = document.getElementById("pulseDot");
+      const dotScale = 1 + dyn.ventContract * 0.45;
+      pulseDot.style.transform = `scale(${dotScale.toFixed(2)})`;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const scale = Math.min(canvas.width / 1000, canvas.height / 960);
+      const offsetX = (canvas.width - 1000 * scale) / 2;
+      const offsetY = (canvas.height - 960 * scale) / 2;
+
+      ctx.save();
+      ctx.translate(offsetX, offsetY);
+      ctx.scale(scale, scale);
+
+      ctx.translate(500 + state.focusOffsetX, 480 + state.focusOffsetY);
+      ctx.scale(state.focusZoom, state.focusZoom);
+      ctx.translate(-500, -480);
+
+      drawHeartAnatomy(dyn);
+      drawBloodParticlesAndArrows(dt, dyn);
+      drawAnnotationsAndHotspots(timestamp);
+
+      ctx.restore();
+      requestAnimationFrame(animate);
+    }
+
+    /* ==========================================================================
+       7. INTERACTIONS SOURIS / TACTILE & FILTRES DU RÉPERTOIRE
+       ========================================================================== */
+    canvas.addEventListener("mousemove", (e) => {
+      const pt = getLogicalCoords(e.clientX, e.clientY);
+      const hit = findPartAt(pt.x, pt.y);
+      state.hoveredId = hit ? hit.id : null;
+      canvas.style.cursor = hit ? "pointer" : "default";
+    });
+
+    canvas.addEventListener("mouseleave", () => {
+      state.hoveredId = null;
+    });
+
+    canvas.addEventListener("click", (e) => {
+      const pt = getLogicalCoords(e.clientX, e.clientY);
+      const hit = findPartAt(pt.x, pt.y);
+      if (hit) {
+        selectPart(hit.id, false);
+      }
+    });
+
+    document.querySelectorAll(".filter-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        state.filter = btn.dataset.filter;
+        renderDirectory();
+      });
+    });
+
+    const btnPlayPause = document.getElementById("btnPlayPause");
+    btnPlayPause.addEventListener("click", () => {
+      state.isPlaying = !state.isPlaying;
+      btnPlayPause.textContent = state.isPlaying ? "Pause" : "Lecture";
+    });
+
+    document.getElementById("btnStepPhase").addEventListener("click", () => {
+      state.isPlaying = false;
+      btnPlayPause.textContent = "Lecture";
+      if (state.phaseTime < 0.18) {
+        state.phaseTime = 0.34; // Systole Ventriculaire
+      } else if (state.phaseTime < 0.52) {
+        state.phaseTime = 0.72; // Diastole Ventriculaire
+      } else {
+        state.phaseTime = 0.09; // Systole Auriculaire
+      }
+    });
+
+    document.getElementById("btnResetView").addEventListener("click", () => {
+      state.focusZoom = 1;
+      state.focusOffsetX = 0;
+      state.focusOffsetY = 0;
+      showToast("Vue réinitialisée sur l'ensemble du cœur");
+    });
+
+    const bpmSlider = document.getElementById("bpmSlider");
+    const bpmDisplay = document.getElementById("bpmDisplay");
+    bpmSlider.addEventListener("input", () => {
+      state.bpm = Number(bpmSlider.value);
+      bpmDisplay.textContent = `${state.bpm} BPM`;
+    });
+
+    function setupToggle(btnId, propKey, labelOn, labelOff) {
+      const btn = document.getElementById(btnId);
+      btn.addEventListener("click", () => {
+        state[propKey] = !state[propKey];
+        btn.textContent = state[propKey] ? labelOn : labelOff;
+        btn.classList.toggle("active-toggle", state[propKey]);
+      });
+    }
+
+    setupToggle("toggleParticles", "showParticles", "Flux Sanguin : OUI", "Flux Sanguin : NON");
+    setupToggle("toggleArrows", "showArrows", "Flèches de Flux : OUI", "Flèches de Flux : NON");
+    setupToggle("toggleValves", "showValves", "Mouvement Valves : OUI", "Mouvement Valves : NON");
+    setupToggle("toggleLabels", "showLabels", "Étiquettes : OUI", "Étiquettes : NON");
+
+    const toggleQuizBtn = document.getElementById("toggleQuiz");
+    const quizBanner = document.getElementById("quizBanner");
+    toggleQuizBtn.addEventListener("click", () => {
+      state.quizMode = !state.quizMode;
+      toggleQuizBtn.textContent = state.quizMode ? "Mode Quiz Médical : OUI" : "Mode Quiz Médical : NON";
+      toggleQuizBtn.classList.toggle("quiz-active", state.quizMode);
+      quizBanner.classList.toggle("visible", state.quizMode);
+
+      if (state.quizMode) {
+        state.quizScore = 0;
+        state.quizTotal = 0;
+        state.focusZoom = 1;
+        state.focusOffsetX = 0;
+        state.focusOffsetY = 0;
+        pickNextQuizTarget();
+        showToast("Mode Quiz activé ! Cliquez sur la structure demandée.");
+      } else {
+        showToast("Retour au mode d'étude interactive.");
+      }
+    });
+
+    /* ==========================================================================
+       10. INITIALISATION AU CHARGEMENT DE LA PAGE
+       ========================================================================== */
+    window.onload = function () {
+      initParticles();
+      renderDirectory();
+      updateInspector(HEART_PARTS.find((p) => p.id === state.selectedId));
+      resizeCanvas();
+      requestAnimationFrame(animate);
+    };
+  </script>
+</body>
+</html>
